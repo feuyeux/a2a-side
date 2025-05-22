@@ -2,6 +2,7 @@ import json
 import random
 from typing import Any, AsyncIterable, Optional
 from google.adk.agents.llm_agent import LlmAgent
+from google.adk.models.lite_llm import LiteLlm
 from google.adk.artifacts import InMemoryArtifactService
 from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
 from google.adk.runners import Runner
@@ -130,8 +131,9 @@ class ReimbursementAgent(AgentWithTaskManager):
 
     def _build_agent(self) -> LlmAgent:
         """Builds the LLM agent for the reimbursement agent."""
+        # https://google.github.io/adk-docs/agents/models/#using-ollama_chat-provider
         return LlmAgent(
-            model="gemini-1.0-pro",
+            model=LiteLlm(model="ollama_chat/qwen3:0.6b"),
             name='reimbursement_agent',
             description=(
                 'This agent handles the reimbursement process for the employees'

@@ -49,13 +49,17 @@ class YoutubeMCPAgent:
     def __init__(self):
         # Import AG2 dependencies here to isolate requirements
         try:
-            # Set up LLM configuration with response format
-            llm_config = LLMConfig(
-                model="qwen3-0.6b",
-                base_url="http://localhost:1234/v1",
-                response_format=ResponseModel,
-            )
-
+            llm_config = {
+                "config_list": [
+                    {
+                        "api_type": "openai",
+                        "model": "qwen3-0.6b",
+                        "base_url": "http://localhost:1234/v1",
+                        "api_key": "lm-studio",
+                    },
+                ],
+                "cache_seed": None,  # Disable caching.
+            }
             # Create the assistant agent that will use MCP tools
             self.agent = AssistantAgent(
                 name='YoutubeMCPAgent',
@@ -132,9 +136,9 @@ class YoutubeMCPAgent:
             logger.info(f'Processing query: {query[:50]}...')
 
             try:
-                # Create stdio server parameters for mcp-youtube
+                # Create stdio server parameters for mcp-youtube with absolute path
                 server_params = StdioServerParameters(
-                    command='mcp-youtube',
+                    command='/Users/han/.local/share/uv/tools/mcp-youtube/bin/mcp-youtube',
                 )
 
                 # Connect to the MCP server using stdio client

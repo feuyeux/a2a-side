@@ -24,7 +24,7 @@ from google.adk.agents.callback_context import CallbackContext
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.tools.tool_context import ToolContext
 from google.genai import types
-
+from google.adk.models.lite_llm import LiteLlm
 from .remote_agent_connection import RemoteAgentConnections, TaskUpdateCallback
 
 os.environ['OPENAI_API_KEY'] = 'your_openai_api_key_here'
@@ -67,7 +67,16 @@ class HostAgent:
 
     def create_agent(self) -> Agent:
         return Agent(
-            model="gemini-1.5-pro",
+            model=LiteLlm(
+                model="ollama_chat/qwen3:0.6b",
+                config={
+                    "format": "chat",  # Ensure chat format
+                    "additional_kwargs": {
+                        "force_json": True,
+                        "message_formatter": "string"  # This ensures content is passed as string
+                    }
+                }
+            ),
             name='host_agent',
             instruction=self.root_instruction,
             before_model_callback=self.before_model_callback,
