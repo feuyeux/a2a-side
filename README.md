@@ -2,6 +2,8 @@
 
 Fork from <https://github.com/google/A2A> and change to use local llm.
 
+![](README.drawio.png)
+
 ## A2A Server (Remote Agent)
 
 ### 1 ag2
@@ -120,6 +122,21 @@ Input Modes: text
 Output Modes: text
 Streaming Supported: True
 Push Notifications Supported: False
+```
+
+### 5
+
+```sh
+uv run agents/llama_index_file_chat
+```
+
+```
+Agent Name: Parse and Chat
+Agent Description: Parses a file and then chats with a user using the parsed content as context.
+Input Modes: text/plain, application/pdf, application/msword, image/png, image/jpeg
+Output Modes: text, text/plain
+Streaming Supported: True
+Push Notifications Supported: True
 ```
 
 ## A2A Client (Client Agent)
